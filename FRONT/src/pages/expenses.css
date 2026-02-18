@@ -1,0 +1,39 @@
+.page-header {
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.page-header div h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-header div p {
+  color: var(--text-secondary);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.pagination-info {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+  }
+
+  .page-header > button {
+    width: 100%;
+  }
+
+  .page-header div h1 {
+    font-size: 1.5rem;
+  }
+}

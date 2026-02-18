@@ -1,0 +1,157 @@
+.budget-card {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.budget-card.ok {
+  border-color: var(--success);
+}
+
+.budget-card.warning {
+  border-color: var(--warning);
+}
+
+.budget-card.exceeded {
+  border-color: var(--error);
+}
+
+.budget-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.budget-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.budget-card-header h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.status-badge.ok {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-badge.warning {
+  background: #fef08a;
+  color: #92400e;
+}
+
+.status-badge.exceeded {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.budget-card-progress {
+  margin-bottom: 1.5rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 12px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.ok {
+  background: linear-gradient(90deg, var(--success), #34d399);
+}
+
+.progress-fill.warning {
+  background: linear-gradient(90deg, var(--warning), #fbbf24);
+}
+
+.progress-fill.exceeded {
+  background: linear-gradient(90deg, var(--error), #f87171);
+}
+
+.budget-card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-value.negative {
+  color: var(--error);
+}
+
+.budget-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.budget-card-actions button {
+  flex: 1;
+  min-width: 80px;
+}
+
+@media (max-width: 768px) {
+  .budget-card {
+    padding: 1rem;
+  }
+
+  .budget-card-header {
+    flex-direction: column;
+  }
+
+  .budget-card-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-card-actions {
+    flex-direction: column;
+  }
+
+  .budget-card-actions button {
+    width: 100%;
+  }
+}
