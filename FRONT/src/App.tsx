@@ -5,9 +5,9 @@ import Layout from './components/Layout'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
-import Expenses from './pages/Expenses'
-import Budgets from './pages/Budgets'
-import Reports from './pages/Reports'
+import Expenses from './pages/expenses'
+import Budgets from './pages/budgets'
+import Reports from './pages/reports'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
@@ -21,7 +21,6 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   const initialize = useAuthStore((state) => state.initialize)
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   useEffect(() => {
     initialize()
@@ -33,19 +32,21 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {isAuthenticated && (
-          <Route element={<Layout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/expenses" element={<Expenses />} />
-            <Route path="/budgets" element={<Budgets />} />
-            <Route path="/reports" element={<Reports />} />
-          </Route>
-        )}
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/expenses" element={<Expenses />} />
+          <Route path="/budgets" element={<Budgets />} />
+          <Route path="/reports" element={<Reports />} />
+        </Route>
 
-        <Route path="*" element={<Navigate to={isAuthenticated ? '/' : '/login'} replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   )
 }
-
-export default App

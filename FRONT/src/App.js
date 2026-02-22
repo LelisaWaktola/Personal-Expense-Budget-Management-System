@@ -6,9 +6,9 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import Expenses from './pages/Expenses';
-import Budgets from './pages/Budgets';
-import Reports from './pages/Reports';
+import Expenses from './pages/expenses';
+import Budgets from './pages/budgets';
+import Reports from './pages/reports';
 function ProtectedRoute({ children }) {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     if (!isAuthenticated) {
