@@ -11,16 +11,20 @@ import Reports from './pages/reports'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const initialized = useAuthStore((state) => state.initialize)
+
+  if (!initialized) return <div>Loading...</div>  // wait until store initializes
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />
   }
 
-  return children
+  return <>{children}</>
 }
 
 function App() {
   const initialize = useAuthStore((state) => state.initialize)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   useEffect(() => {
     initialize()
@@ -33,20 +37,23 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route
-          element={
-            <ProtectedRoute>
-              <Layout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/expenses" element={<Expenses />} />
-          <Route path="/budgets" element={<Budgets />} />
-          <Route path="/reports" element={<Reports />} />
-        </Route>
+            path="/"
+            element={
+                <ProtectedRoute>
+                <Layout />
+                </ProtectedRoute>
+            }
+            >
+            <Route index element={<Dashboard />} />
+            <Route path="expenses" element={<Expenses />} />
+            <Route path="budgets" element={<Budgets />} />
+            <Route path="reports" element={<Reports />} />
+            </Route>
 
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to={isAuthenticated ? '/' : '/login'} replace />} />
       </Routes>
     </BrowserRouter>
   )
 }
+
+export default App
