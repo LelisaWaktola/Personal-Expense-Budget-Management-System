@@ -4,18 +4,18 @@ import { useAuthStore } from './store/authStore'
 import Layout from './components/Layout'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Dashboard from './pages/Dashboard'
+import Dashboard from './pages/dashboard'
 import Expenses from './pages/expenses'
 import Budgets from './pages/budgets'
 import Reports from './pages/reports'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-  const initialized = useAuthStore((state) => state.initialize)
+  const isInitialized = useAuthStore((state) => state.isInitialized)
 
-  if (!initialized) return <div>Loading...</div>  // wait until store initializes
+  if (!isInitialized) return null
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !localStorage.getItem('accessToken')) {
     return <Navigate to="/login" replace />
   }
 
@@ -25,10 +25,15 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 function App() {
   const initialize = useAuthStore((state) => state.initialize)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const isInitialized = useAuthStore((state) => state.isInitialized)
 
   useEffect(() => {
     initialize()
   }, [initialize])
+
+  if (!isInitialized) {
+    return null
+  }
 
   return (
     <BrowserRouter>
@@ -37,18 +42,17 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route
-            path="/"
-            element={
-                <ProtectedRoute>
-                <Layout />
-                </ProtectedRoute>
-            }
-            >
-            <Route index element={<Dashboard />} />
-            <Route path="expenses" element={<Expenses />} />
-            <Route path="budgets" element={<Budgets />} />
-            <Route path="reports" element={<Reports />} />
-            </Route>
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/expenses" element={<Expenses />} />
+          <Route path="/budgets" element={<Budgets />} />
+          <Route path="/reports" element={<Reports />} />
+        </Route>
 
         <Route path="*" element={<Navigate to={isAuthenticated ? '/' : '/login'} replace />} />
       </Routes>

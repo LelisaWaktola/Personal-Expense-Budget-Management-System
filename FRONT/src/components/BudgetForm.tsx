@@ -27,13 +27,18 @@ export default function BudgetForm({
   onCancel,
   isEditing,
 }: BudgetFormProps) {
-  const [data, setData] = useState<BudgetRequest>(
-    initialData || {
-      category: 'FOOD',
-      limitAmount: 0,
-      month: new Date().toISOString().slice(0, 7),
-    }
-  )
+const getCurrentMonth = () => {
+  const date = new Date()
+  return date.toISOString().substring(0, 7)
+}
+
+const [data, setData] = useState<BudgetRequest>(
+  initialData || {
+    category: 'FOOD',
+    limitAmount: 0,
+    month: getCurrentMonth(),
+  }
+)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 

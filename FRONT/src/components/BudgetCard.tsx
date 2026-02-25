@@ -14,7 +14,10 @@ export default function BudgetCard({
   onDelete,
   onCheckAlerts,
 }: BudgetCardProps) {
-  const percentage = Math.min((budget.spentAmount / budget.limitAmount) * 100, 100)
+  const percentage =
+  budget.limitAmount > 0
+    ? Math.min((budget.spentAmount / budget.limitAmount) * 100, 100)
+    : 0;
   const isExceeded = percentage >= 100
   const isWarning = percentage >= 80 && percentage < 100
   const isOk = percentage < 80
@@ -25,7 +28,7 @@ export default function BudgetCard({
     <div className={`budget-card ${statusClass}`}>
       <div className="budget-card-header">
         <div>
-          <h3>{budget.category.replace('_', ' ')}</h3>
+          <h3>{budget.category.replace(/_/g, ' ')}</h3>
           <small className="text-secondary">{budget.month}</small>
         </div>
         <span className={`status-badge ${statusClass}`}>

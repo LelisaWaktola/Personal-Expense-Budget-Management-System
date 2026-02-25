@@ -11,23 +11,33 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault()
-  setError('')
-  setLoading(true)
 
-  try {
-    const response = await authAPI.login({ email, password })
-    const { accessToken, ...user } = response.data.data
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
 
-    login(user, accessToken)
-    navigate('/')
-  } catch (err: any) {
-    setError(err.response?.data?.error || 'Login failed')
-  } finally {
-    setLoading(false)
-  }
+    try {
+      const response = await authAPI.login({ email, password })
+     const loginData = response.data.data
+
+const user = {
+  id: loginData.id,
+  email: loginData.email,
+  firstName: loginData.firstName,
+  lastName: loginData.lastName
 }
+
+const accessToken = loginData.accessToken
+
+login(user, accessToken)
+      navigate('/')
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Login failed')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="auth-container">
