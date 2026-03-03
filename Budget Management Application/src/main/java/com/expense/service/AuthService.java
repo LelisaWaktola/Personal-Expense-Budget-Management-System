@@ -67,7 +67,7 @@ public class AuthService {
         );
 
         String token = jwtTokenProvider.generateToken(authentication);
-        User user = userRepository.findByEmail(request.getEmail()).get();
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new BadRequestException("User not found"));
 
         return AuthResponse.builder()
             .id(user.getId())
